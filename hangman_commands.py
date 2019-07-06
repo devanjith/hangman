@@ -44,13 +44,13 @@ class HangmanCommands(commands.Cog):
             word["wrong_guess"] = False
         except Exception as e:
             print (e)
-            await context.send("This channel has no games.")
+            await context.send("This channel has no ongoing games.")
             return
 
         try:
             letter = args[0][0].upper()
         except:
-            await context.send("Guess what?")
+            await context.send("What's your guess?")
             return
 
         if letter in word["used"]:
