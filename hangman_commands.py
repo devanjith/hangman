@@ -40,7 +40,7 @@ class HangmanCommands(commands.Cog):
                 "used" : [],
                 "failed" : 0,
                 "ended" : False,
-                "wrong_guess" : False
+                "wrong_guess" : False,
                 "hints" : 2
                 }
 
@@ -65,11 +65,13 @@ class HangmanCommands(commands.Cog):
                 pos = i
                 break
 
-        if pos < 0 or not word["hints"]:
+        if pos < 0 or word["hints"] <= 0:
             await context.send("No more hints for you.")
             return
 
         word["hints"] -= 1
+        self.channel_words[channel_id] = copy.deepcopy(word)
+
         await self._guess(context, [word["word"][pos]])
 
 
@@ -91,7 +93,6 @@ class HangmanCommands(commands.Cog):
 
         try:
             letter = args[0][0].upper()
-            print (letter)
         except:
             await context.send("What's your guess?")
             return
