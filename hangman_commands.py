@@ -41,6 +41,7 @@ class HangmanCommands(commands.Cog):
                 "failed" : 0,
                 "ended" : False,
                 "wrong_guess" : False
+                "hints" : 2
                 }
 
         embed = util.create_embed(context, self.channel_words[channel_id])
@@ -48,6 +49,31 @@ class HangmanCommands(commands.Cog):
 
     @commands.command(name="guess", aliases=["g"])
     async def guess(self, context, *args):
+        await self._guess(context, *args)
+
+    @commands.command(name="hint")
+    async def hint(self, context):
+        channel_id = str(context.channel.id)
+        word = self.get_word(context)
+        if not word:
+            await context.send("This channel has no ongoing games.")
+            return
+
+        pos = -1
+        for i,c in enumerate(word["current"]):
+            if word["current"][i] == "-":
+                pos = i
+                break
+
+        if pos < 0 or not word["hints"]:
+            await context.send("No more hints for you.")
+            return
+
+        word["hints"] -= 1
+        await self._guess(context, [word["word"][pos]])
+
+
+    async def _guess(self, context, *args):
         channel_id = str(context.channel.id)
         # try:
             # word = copy.deepcopy(self.channel_words[channel_id])
@@ -65,6 +91,7 @@ class HangmanCommands(commands.Cog):
 
         try:
             letter = args[0][0].upper()
+            print (letter)
         except:
             await context.send("What's your guess?")
             return
@@ -82,7 +109,7 @@ class HangmanCommands(commands.Cog):
         if word["current"] == self.channel_words[channel_id]["current"]:
             word["failed"] += 1
             word["wrong_guess"] = True
-        
+
         if word["failed"] > 5:
             word["ended"] = True
             embed = util.create_lose_embed(context, word)
@@ -97,10 +124,6 @@ class HangmanCommands(commands.Cog):
 
         self.channel_words[channel_id] = copy.deepcopy(word)
         # await context.send(word)
-
-    # @commands.command(name="hint")
-    # async def hint(self, context):
-        # pass
 
     def get_word(self, context):
         channel_id = str(context.channel.id)
