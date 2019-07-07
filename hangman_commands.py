@@ -22,6 +22,13 @@ class HangmanCommands(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print ("Logged in as {}.".format(self.bot.user))
+        await self.bot.change_presence(
+                activity=discord.Game(
+                    name="{}hangman with humans.".format(
+                        self.bot.command_prefix
+                        )
+                    )
+                )
 
     @commands.command(name="hang", aliases=["play", "h"])
     async def hang(self, context):
