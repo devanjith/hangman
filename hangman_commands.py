@@ -30,7 +30,7 @@ class HangmanCommands(commands.Cog):
                     )
                 )
 
-    @commands.command(name="hang", aliases=["play", "h"])
+    @commands.command(name="hangman", aliases=["play", "h", "hang"])
     async def hang(self, context):
         channel_id = str(context.channel.id)
         word = random.choice(self.words)
