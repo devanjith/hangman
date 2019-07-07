@@ -7,7 +7,7 @@ from discord.ext import commands
 from hangman_commands import HangmanCommands
 
 class Hangman(commands.Bot):
-    def __init__(self, command_prefix=";"):
+    def __init__(self, command_prefix="+"):
         super().__init__(command_prefix)
         self.add_cog(HangmanCommands(self))
 
