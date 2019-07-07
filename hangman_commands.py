@@ -3,6 +3,7 @@
 import random
 import copy
 
+import discord
 from discord.ext import commands
 
 import util
@@ -18,7 +19,18 @@ class HangmanCommands(commands.Cog):
         with open("data/words.txt", "r") as word_file:
             return [word.strip().upper() for word in word_file]
 
-    @commands.command(name="hang", aliases=["play", "h"])
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print ("Logged in as {}.".format(self.bot.user))
+        await self.bot.change_presence(
+                activity=discord.Game(
+                    name="{}hangman with humans.".format(
+                        self.bot.command_prefix
+                        )
+                    )
+                )
+
+    @commands.command(name="hangman", aliases=["play", "h", "hang"])
     async def hang(self, context):
         channel_id = str(context.channel.id)
         word = random.choice(self.words)
