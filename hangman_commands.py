@@ -77,15 +77,6 @@ class HangmanCommands(commands.Cog):
 
     async def _guess(self, context, *args):
         channel_id = str(context.channel.id)
-        # try:
-            # word = copy.deepcopy(self.channel_words[channel_id])
-            # if word["ended"]:
-                # raise Exception
-            # word["wrong_guess"] = False
-        # except Exception as e:
-            # print (e)
-            # await context.send("This channel has no ongoing games.")
-            # return
         word = self.get_word(context)
         if not word:
             await context.send("This channel has no ongoing games.")
@@ -124,7 +115,6 @@ class HangmanCommands(commands.Cog):
             await context.send(embed=embed)
 
         self.channel_words[channel_id] = copy.deepcopy(word)
-        # await context.send(word)
 
     def get_word(self, context):
         channel_id = str(context.channel.id)
