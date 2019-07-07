@@ -7,12 +7,14 @@ from discord.ext import commands
 from hangman_commands import HangmanCommands
 
 class Hangman(commands.Bot):
-    def __init__(self, command_prefix="+"):
+    def __init__(self, command_prefix=";"):
         super().__init__(command_prefix)
         self.add_cog(HangmanCommands(self))
         
-    async def on_ready(self):
-        print ("Logged in as {}".format(self.user))
+    # async def on_ready(self):
+        # print ("Logged in as {}".format(self.user))
+        # await self.change_presence(activity=discord.Game("Type {}hang to play hangman."))
+
 
 if __name__ == "__main__":
     try:
