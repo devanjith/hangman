@@ -49,13 +49,17 @@ class HangmanCommands(commands.Cog):
     @commands.command(name="guess", aliases=["g"])
     async def guess(self, context, *args):
         channel_id = str(context.channel.id)
-        try:
-            word = copy.deepcopy(self.channel_words[channel_id])
-            if word["ended"]:
-                raise Exception
-            word["wrong_guess"] = False
-        except Exception as e:
-            print (e)
+        # try:
+            # word = copy.deepcopy(self.channel_words[channel_id])
+            # if word["ended"]:
+                # raise Exception
+            # word["wrong_guess"] = False
+        # except Exception as e:
+            # print (e)
+            # await context.send("This channel has no ongoing games.")
+            # return
+        word = self.get_word(context)
+        if not word:
             await context.send("This channel has no ongoing games.")
             return
 
@@ -93,3 +97,19 @@ class HangmanCommands(commands.Cog):
 
         self.channel_words[channel_id] = copy.deepcopy(word)
         # await context.send(word)
+
+    # @commands.command(name="hint")
+    # async def hint(self, context):
+        # pass
+
+    def get_word(self, context):
+        channel_id = str(context.channel.id)
+        try:
+            word = copy.deepcopy(self.channel_words[channel_id])
+            if word["ended"]:
+                raise Exception
+            word["wrong_guess"] = False
+            return word
+        except Exception as e:
+            print (e)
+            return False
