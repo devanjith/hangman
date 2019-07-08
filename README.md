@@ -9,7 +9,7 @@ Simply [invite](https://discordapp.com/oauth2/authorize?client_id=59696184976605
 **Commands**
 * `+hangman` - Start a new game.
 * `+guess <letter>` - Guess a letter.
-* `+hint` - Ask for a hint.
+* `+hint` - Ask for a hint. (2 hints per game)
 
 The bot is local per channel so you can have separate games running on each channel.
 
